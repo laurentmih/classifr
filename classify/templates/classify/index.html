@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Index{% endblock title %}
+
+{% block body %}
+<h1>Upload .CSV file</h1>
+<p class="lead">Upload a .csv file that contains the strings you want to classify.</p>
+<h2>Expected file format</h2> 
+<kbd>string || ne_start_char || ne_end_char || ne_type</kbd>
+<br>
+<br>
+
+<h3>Explanation</h3>
+<kbd>string</kbd> String you wish to classify. Example: <em>I would like to live in New York</em><br>
+<kbd>ne_start_char</kbd> Location of the first character of the named entity. If <strong>New York</strong> were the entity above, the start character would be 24 (0-indexed).<br>
+<kbd>ne_end_char</kbd> Same as above, but last character of the named entity. In the example above, it would be 31.<br>
+<kbd>ne-type</kbd> Location of the named entity. Above would probably be <kbd>LOC</kbd><br>
+<br>
+
+<h2>File upload</h2>
+<form action="{% url 'classify:index' %}" method="post" enctype="multipart/form-data">
+	{% csrf_token %}
+
+	{{ form.as_p }}
+
+	<button type="submit" class="btn btn-primary" value="Upload">Upload</button>
+</form>
+<br>
+
+<h2>Demo data</h2>
+<p>If you don't happen to have a properly-formatted <kbd>.csv</kbd>-file lying around, you can try a demo. The file that will be used contains the below table in .csv format (without the header though).</p>
+<a class="btn btn-warning" role="button" href="{% url 'classify:demo' %}">Use demo data</a>
+<br>
+<br>
+
+<table class="table">
+	<thead>
+		<tr>
+			<th scope="col">String</th>
+			<th scope="col">ne_start_char</th>
+			<th scope="col">ne_end_char</th>
+			<th scope="col">ne_type</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>I would like to live in New York City.</td>
+			<td>24</td>
+			<td>36</td>
+			<td><kbd>LOC</kbd></td>
+		</tr>
+		<tr>
+			<td>As far as newspapers go, The New York Times is halfway decent.</td>
+			<td>25</td>
+			<td>42</td>
+			<td><kbd>BUS</kbd></td>
+		</tr>
+		<tr>
+			<td>I would like to eat Italian tonight.</td>
+			<td>20</td>
+			<td>26</td>
+			<td><kbd>NAT</kbd></td>
+		</tr>
+	</tbody>
+</table>
+{% endblock body %}

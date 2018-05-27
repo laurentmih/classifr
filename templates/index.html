@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Classifr - Home {% endblock title %}
+
+{% block body %}
+<h1>Classifr</h1>
+<p class="lead">A dead-simple annotation app to supervise the predictions of your NER algorithms. Upload a <kbd>.csv</kbd>-file that contains the strings, along with the predicted start- and end-characters of the Named Entities, as well as their type. This app will then provide an easy interface to accept or reject those predictions, and bulk-download the results.<br>
+
+Inspired by <a href="https://prodi.gy/">Prodigy from the spaCy team</a>, without all the fancy-ness and features.
+</p>
+
+<h2>Shouldn't I just build a good training set instead?</h2>
+<p>Sure, but once your algorithm reaches halfway decent predictions, it'll be faster to just tell it what it gets right or wrong, versus more tediously continuing to expand a valid training set. <br>
+
+This becomes more obvous when you have a model that supports some kind of inline training and an API that this app could connect to directly, instead of doing .csv im/exports.</p>
+
+<a class="btn btn-success" role="button" href="{% url 'classify:index' %}">Get started</a>
+
+{% endblock body %}

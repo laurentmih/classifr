@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Classify{% endblock title %}
+
+{% block body %}
+<h1>Classification</h1>
+<p class="lead">This page randomly selects a string from the uploaded <kbd>.csv</kbd>-file, along with the named entity prediction. Subsequently it can be classified as a correct named entity recognition, or incorrect.</p>
+
+{% if object %}
+<p><strong>String: </strong>{{ string_first }}<mark>{{ string_highlight }}</mark>{{string_last}}</p>
+<p><strong>Named Entity type: </strong> <kbd>{{ object.ne_type}}</kbd></p>
+
+<form action="{% url 'classify:classify' %}" method="post">
+	{% csrf_token %}
+	<input type="hidden" name="id" value="{{ object.id }}">
+	<button type="submit" class="btn btn-success" name="correct_status" value="1">OK</button>
+	<button type="submit" class="btn btn-danger" name="correct_status" value="0">Wrong</button>
+	<a class="btn btn-dark" role="button" href=".">Pass</a>
+</form>
+
+{% elif status == 'done' %}
+<h2>All strings classified</h2>
+It looks like you've classified all the strings in the database.<br><br>
+<a class="btn btn-success btn-sm" role="button" href="{% url 'classify:index' %}">Upload some more records</a>
+<a class="btn btn-info btn-sm" role="button" href="{% url 'classify:export' %}">Grab the export</a>
+
+{% elif status == 'empty' %}
+<h2>No records found</h2>
+It looks like there are no records in the database that can be classified. <br><br>
+<a class="btn btn-success btn-sm" role="button" href="{% url 'classify:index' %}">Go to upload</a>
+{% endif %}
+{% endblock body %}

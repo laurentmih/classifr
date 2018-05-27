@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Export{% endblock title %}
+
+{% block body %}
+<h1>Export</h1>
+<p class="lead">Export every record that has been corrected so far. Output file will be a <kbd>.csv</kbd>-file that will contain the strings that were classified, their status (True or False mapping to correct/incorrect) and the timestamp at which they were classified.</p>
+<form action="{% url 'classify:export' %}" method="post">
+	{% csrf_token %}
+	<button type="submit" class="btn btn-primary" value="Export">Export</button>
+</form>
+{% endblock body %}
